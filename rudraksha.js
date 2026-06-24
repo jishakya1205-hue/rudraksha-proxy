@@ -36,8 +36,8 @@ function checkRateLimit(ip) {
 
 // ── Allowed origins (apni Shopify store URL yahan likhein) ──
 const ALLOWED_ORIGINS = [
-  process.env.SHOPIFY_STORE_URL,      // e.g. https://yourstore.myshopify.com
-  process.env.SHOPIFY_CUSTOM_DOMAIN,  // e.g. https://www.yourstore.com
+  process.env.https://gemsdeva-2.myshopify.com,      // e.g. https://yourstore.myshopify.com
+  process.env.https://gemsdeva-2.myshopify.com,  // e.g. https://www.yourstore.com
   'http://localhost:3000',            // local dev ke liye
 ].filter(Boolean);
 

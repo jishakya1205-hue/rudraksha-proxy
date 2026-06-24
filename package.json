@@ -1,0 +1,16 @@
+{
+  "name": "rudraksha-api-proxy",
+  "version": "1.0.0",
+  "description": "Secure proxy for AstrologyAPI — hides credentials from browser",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
+}

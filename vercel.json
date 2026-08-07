@@ -4,14 +4,24 @@
     "api/rudraksha.js": {
       "memory": 128,
       "maxDuration": 10
+    },
+    "api/basic-horoscope-pdf.js": {
+      "memory": 128,
+      "maxDuration": 15
     }
   },
   "headers": [
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        }
       ]
     }
   ]

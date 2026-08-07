@@ -1,0 +1,103 @@
+{% comment %}
+  The Gems Deva — Basic Horoscope PDF generator
+  Paste this single file into a Shopify Custom Liquid section/snippet.
+  Set your Vercel proxy URL below; do not put AstrologyAPI credentials in Liquid.
+{% endcomment %}
+
+{% assign horoscope_pdf_proxy_url = 'https://YOUR-VERCEL-DOMAIN.vercel.app/api/basic-horoscope-pdf' %}
+
+<div id="tgd-horoscope-pdf" class="tgd-horoscope-pdf">
+  <style>
+    .tgd-horoscope-pdf { max-width: 760px; margin: 32px auto; padding: 28px; border: 1px solid #eadfcb; border-radius: 18px; background: #fffaf2; color: #2b2118; font-family: inherit; }
+    .tgd-horoscope-pdf__header { text-align: center; margin-bottom: 22px; }
+    .tgd-horoscope-pdf__logo { max-width: 150px; height: auto; margin-bottom: 12px; }
+    .tgd-horoscope-pdf__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .tgd-horoscope-pdf__field { display: flex; flex-direction: column; gap: 6px; }
+    .tgd-horoscope-pdf__field--full { grid-column: 1 / -1; }
+    .tgd-horoscope-pdf label { font-weight: 600; font-size: 14px; }
+    .tgd-horoscope-pdf input, .tgd-horoscope-pdf select { width: 100%; min-height: 44px; border: 1px solid #d8c5a6; border-radius: 10px; padding: 10px 12px; background: #fff; color: #2b2118; }
+    .tgd-horoscope-pdf button { margin-top: 18px; width: 100%; min-height: 48px; border: 0; border-radius: 999px; background: #8b4513; color: #fff; font-weight: 700; cursor: pointer; }
+    .tgd-horoscope-pdf button[disabled] { opacity: .65; cursor: not-allowed; }
+    .tgd-horoscope-pdf__message { margin-top: 16px; padding: 12px 14px; border-radius: 10px; display: none; }
+    .tgd-horoscope-pdf__message.is-error { display: block; background: #fff0f0; color: #9f1d1d; }
+    .tgd-horoscope-pdf__message.is-success { display: block; background: #eef9f0; color: #17652b; }
+    .tgd-horoscope-pdf__download { color: inherit; font-weight: 700; text-decoration: underline; }
+    @media (max-width: 640px) { .tgd-horoscope-pdf { margin: 18px 12px; padding: 20px; } .tgd-horoscope-pdf__grid { grid-template-columns: 1fr; } }
+  </style>
+
+  <div class="tgd-horoscope-pdf__header">
+    <img class="tgd-horoscope-pdf__logo" src="https://www.thegemsdeva.com/cdn/shop/files/ChatGPT_Image_Jun_4_2026_01_08_19_PM.png?v=1780558765&amp;width=330" alt="thegemsdeva logo" loading="lazy">
+    <h2>Generate Your Basic Horoscope PDF</h2>
+    <p>Enter birth details to create a branded horoscope PDF from The Gems Deva.</p>
+  </div>
+
+  <form data-horoscope-pdf-form>
+    <div class="tgd-horoscope-pdf__grid">
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-name">Name</label><input id="tgd-name" name="name" autocomplete="name" required></div>
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-gender">Gender</label><select id="tgd-gender" name="gender" required><option value="male">Male</option><option value="female">Female</option></select></div>
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-day">Birth Day</label><input id="tgd-day" name="day" type="number" min="1" max="31" required></div>
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-month">Birth Month</label><input id="tgd-month" name="month" type="number" min="1" max="12" required></div>
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-year">Birth Year</label><input id="tgd-year" name="year" type="number" min="1900" max="{{ 'now' | date: '%Y' }}" required></div>
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-hour">Birth Hour (0-23)</label><input id="tgd-hour" name="hour" type="number" min="0" max="23" required></div>
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-min">Birth Minute</label><input id="tgd-min" name="min" type="number" min="0" max="59" required></div>
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-tzone">Timezone</label><input id="tgd-tzone" name="tzone" type="number" step="0.5" min="-12" max="14" value="5.5" required></div>
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-lat">Latitude</label><input id="tgd-lat" name="lat" type="number" step="any" min="-90" max="90" required></div>
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-lon">Longitude</label><input id="tgd-lon" name="lon" type="number" step="any" min="-180" max="180" required></div>
+      <div class="tgd-horoscope-pdf__field tgd-horoscope-pdf__field--full"><label for="tgd-place">Birth Place</label><input id="tgd-place" name="place" placeholder="Mumbai, Maharashtra, India" required></div>
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-language">Language</label><select id="tgd-language" name="language"><option value="en">English</option><option value="hi">Hindi</option><option value="bn">Bengali</option><option value="mr">Marathi</option><option value="ta">Tamil</option><option value="te">Telugu</option><option value="kn">Kannada</option><option value="ml">Malayalam</option></select></div>
+      <div class="tgd-horoscope-pdf__field"><label for="tgd-chart-style">Chart Style</label><select id="tgd-chart-style" name="chart_style"><option value="NORTH_INDIAN">North Indian</option><option value="SOUTH_INDIAN">South Indian</option><option value="EAST_INDIAN">East Indian</option></select></div>
+    </div>
+    <button type="submit">Generate PDF</button>
+    <div class="tgd-horoscope-pdf__message" data-horoscope-pdf-message></div>
+  </form>
+
+  <script>
+    (() => {
+      const root = document.getElementById('tgd-horoscope-pdf');
+      if (!root) return;
+
+      const form = root.querySelector('[data-horoscope-pdf-form]');
+      const button = form.querySelector('button[type="submit"]');
+      const message = root.querySelector('[data-horoscope-pdf-message]');
+      const proxyUrl = {{ horoscope_pdf_proxy_url | json }};
+      const numericFields = new Set(['day', 'month', 'year', 'hour', 'min', 'lat', 'lon', 'tzone']);
+
+      function showMessage(type, html) {
+        message.className = `tgd-horoscope-pdf__message is-${type}`;
+        message.innerHTML = html;
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const payload = {};
+        new FormData(form).forEach((value, key) => {
+          payload[key] = numericFields.has(key) ? Number(value) : String(value).trim();
+        });
+
+        button.disabled = true;
+        button.textContent = 'Generating...';
+        showMessage('success', 'Please wait while we generate your horoscope PDF.');
+
+        try {
+          const response = await fetch(proxyUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await response.json();
+
+          if (!response.ok || !data.pdf_url) {
+            throw new Error(data.error || 'PDF generation failed. Please try again.');
+          }
+
+          showMessage('success', `Your horoscope PDF is ready: <a class="tgd-horoscope-pdf__download" href="${data.pdf_url}" target="_blank" rel="noopener">Download PDF</a>`);
+        } catch (error) {
+          showMessage('error', error.message || 'Something went wrong. Please try again.');
+        } finally {
+          button.disabled = false;
+          button.textContent = 'Generate PDF';
+        }
+      });
+    })();
+  </script>
+</div>

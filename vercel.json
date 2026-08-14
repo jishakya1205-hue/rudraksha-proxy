@@ -4,6 +4,10 @@
     "api/rudraksha.js": {
       "memory": 128,
       "maxDuration": 10
+    },
+    "api/kundli-pdf.js": {
+      "memory": 128,
+      "maxDuration": 15
     }
   },
   "headers": [

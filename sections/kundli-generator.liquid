@@ -1,0 +1,404 @@
+<div
+  id="kundli-generator-{{ section.id }}"
+  class="kundli-generator"
+  style="--kundli-primary: {{ section.settings.primary_color }}; --kundli-accent: {{ section.settings.accent_color }};"
+>
+  <section class="kundli-shell" aria-labelledby="kundli-heading-{{ section.id }}">
+    <div class="kundli-hero">
+      <div class="kundli-hero__icon" aria-hidden="true">
+        <svg viewBox="0 0 120 120" role="img" focusable="false">
+          <circle cx="60" cy="60" r="48" fill="none" stroke="currentColor" stroke-width="3" opacity="0.45" />
+          <circle cx="60" cy="60" r="22" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M60 10v20M60 90v20M10 60h20M90 60h20M26 26l14 14M80 80l14 14M94 26 80 40M40 80 26 94" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          <path d="M60 38l7 14 15 2-11 11 3 15-14-7-14 7 3-15-11-11 15-2z" fill="currentColor" opacity="0.9" />
+        </svg>
+      </div>
+      <p class="kundli-eyebrow">Vedic Birth Chart PDF</p>
+      <h2 id="kundli-heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      <p>{{ section.settings.subheading | escape }}</p>
+    </div>
+
+    <div class="kundli-card">
+      <aside class="kundli-info" aria-label="Kundli benefits">
+        <span class="kundli-info__badge">Personalized Astrology Report</span>
+        <h3>Discover your cosmic blueprint</h3>
+        <p>Generate a Vedic Kundli PDF using your exact birth date, time, and birthplace coordinates.</p>
+        <ul>
+          <li><span>✓</span> Vedic Kundli with birth details</li>
+          <li><span>✓</span> North Indian birth chart style</li>
+          <li><span>✓</span> PDF report for viewing or saving</li>
+          <li><span>✓</span> Location-aware timezone calculation</li>
+        </ul>
+        <div class="kundli-trust">
+          <strong>Perfect for Rudraksha, gemstone, pooja, vastu, and astrology consultations.</strong>
+        </div>
+      </aside>
+
+      <div class="kundli-form-panel">
+        <form class="kundli-form" novalidate>
+          <div class="kundli-alert" data-alert role="alert" aria-live="assertive" hidden></div>
+
+          <div class="kundli-field">
+            <label for="kundli-name-{{ section.id }}">Full Name <span aria-hidden="true">*</span></label>
+            <input id="kundli-name-{{ section.id }}" name="name" type="text" placeholder="Enter your full name" autocomplete="name" required>
+          </div>
+
+          <div class="kundli-grid">
+            <div class="kundli-field">
+              <label for="kundli-gender-{{ section.id }}">Gender <span aria-hidden="true">*</span></label>
+              <select id="kundli-gender-{{ section.id }}" name="gender" required>
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="kundli-field">
+              <label for="kundli-dob-{{ section.id }}">Date of Birth <span aria-hidden="true">*</span></label>
+              <input id="kundli-dob-{{ section.id }}" name="dob" type="date" required>
+            </div>
+          </div>
+
+          <div class="kundli-field">
+            <label for="kundli-time-{{ section.id }}">Time of Birth <span aria-hidden="true">*</span></label>
+            <input id="kundli-time-{{ section.id }}" name="time" type="time" required>
+          </div>
+
+          <div class="kundli-field kundli-location" data-location-wrapper>
+            <label for="kundli-place-{{ section.id }}">Birth Place <span aria-hidden="true">*</span></label>
+            <input
+              id="kundli-place-{{ section.id }}"
+              name="place"
+              type="text"
+              placeholder="Search your birth place"
+              autocomplete="off"
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded="false"
+              aria-controls="kundli-location-list-{{ section.id }}"
+              aria-describedby="kundli-place-help-{{ section.id }}"
+              required
+            >
+            <p id="kundli-place-help-{{ section.id }}" class="kundli-help">Type at least 2 characters, then select a suggestion.</p>
+            <div id="kundli-location-list-{{ section.id }}" class="kundli-suggestions" role="listbox" hidden></div>
+            <div class="kundli-status" data-location-status aria-live="polite"></div>
+          </div>
+
+          <input type="hidden" name="latitude" data-latitude>
+          <input type="hidden" name="longitude" data-longitude>
+          <input type="hidden" name="city" data-city>
+          <input type="hidden" name="state" data-state>
+          <input type="hidden" name="country" data-country>
+          <input type="hidden" name="timezone" data-timezone>
+
+          <button class="kundli-submit" type="submit">
+            <span data-button-label>{{ section.settings.button_text | escape }}</span>
+            <span class="kundli-spinner" data-button-spinner hidden></span>
+          </button>
+        </form>
+
+        <div class="kundli-success" data-success hidden aria-live="polite">
+          <div class="kundli-success__icon" aria-hidden="true">🎉</div>
+          <h3>Your Kundli Is Ready!</h3>
+          <p>Your personalized Kundli PDF has been generated successfully.</p>
+          <div class="kundli-actions">
+            <button type="button" class="kundli-secondary" data-view-pdf>View Kundli PDF</button>
+            <button type="button" class="kundli-secondary" data-download-pdf>Download Kundli PDF</button>
+            <button type="button" class="kundli-link-button" data-reset>Generate Another Kundli</button>
+          </div>
+          <p class="kundli-download-note">If your browser cannot force a cross-origin download, the PDF will open in a new tab.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  #kundli-generator-{{ section.id }} { color: #1f1638; background: linear-gradient(135deg, #120821 0%, var(--kundli-primary) 48%, #1b2346 100%); padding: 56px 18px; }
+  #kundli-generator-{{ section.id }} * { box-sizing: border-box; }
+  #kundli-generator-{{ section.id }} .kundli-shell { max-width: 1180px; margin: 0 auto; }
+  #kundli-generator-{{ section.id }} .kundli-hero { text-align: center; color: #fff; margin-bottom: 32px; }
+  #kundli-generator-{{ section.id }} .kundli-hero__icon { width: 92px; height: 92px; display: grid; place-items: center; color: var(--kundli-accent); margin: 0 auto 14px; filter: drop-shadow(0 12px 24px rgba(245, 190, 85, 0.22)); }
+  #kundli-generator-{{ section.id }} .kundli-hero__icon svg { width: 100%; height: 100%; }
+  #kundli-generator-{{ section.id }} .kundli-eyebrow { color: #f7d790; font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin: 0 0 10px; }
+  #kundli-generator-{{ section.id }} h2 { color: #fff; font-size: clamp(34px, 5vw, 58px); line-height: 1.05; margin: 0 0 14px; }
+  #kundli-generator-{{ section.id }} .kundli-hero p:not(.kundli-eyebrow) { max-width: 680px; margin: 0 auto; color: #efe8ff; font-size: clamp(16px, 2vw, 20px); }
+  #kundli-generator-{{ section.id }} .kundli-card { display: grid; grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr); gap: 0; background: rgba(255,255,255,0.96); border: 1px solid rgba(255,255,255,0.35); border-radius: 30px; overflow: visible; box-shadow: 0 26px 70px rgba(0,0,0,0.28); }
+  #kundli-generator-{{ section.id }} .kundli-info { background: linear-gradient(160deg, rgba(57, 24, 99, 0.98), rgba(21, 28, 62, 0.98)); color: #fff; padding: 42px; border-radius: 30px 0 0 30px; }
+  #kundli-generator-{{ section.id }} .kundli-info__badge { display: inline-flex; color: #2a1d04; background: var(--kundli-accent); border-radius: 999px; padding: 8px 13px; font-size: 12px; font-weight: 800; }
+  #kundli-generator-{{ section.id }} .kundli-info h3 { color: #fff; font-size: 32px; line-height: 1.15; margin: 24px 0 12px; }
+  #kundli-generator-{{ section.id }} .kundli-info p, #kundli-generator-{{ section.id }} .kundli-info li { color: #eee7ff; }
+  #kundli-generator-{{ section.id }} .kundli-info ul { list-style: none; padding: 0; margin: 28px 0; display: grid; gap: 14px; }
+  #kundli-generator-{{ section.id }} .kundli-info li { display: flex; gap: 10px; align-items: flex-start; }
+  #kundli-generator-{{ section.id }} .kundli-info li span { color: var(--kundli-accent); font-weight: 900; }
+  #kundli-generator-{{ section.id }} .kundli-trust { border: 1px solid rgba(247, 215, 144, 0.35); border-radius: 18px; padding: 16px; background: rgba(255,255,255,0.08); color: #fff5d7; }
+  #kundli-generator-{{ section.id }} .kundli-form-panel { padding: 42px; position: relative; }
+  #kundli-generator-{{ section.id }} .kundli-form { display: grid; gap: 18px; }
+  #kundli-generator-{{ section.id }} .kundli-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  #kundli-generator-{{ section.id }} label { display: block; color: #251a3f; font-weight: 800; margin-bottom: 8px; }
+  #kundli-generator-{{ section.id }} input, #kundli-generator-{{ section.id }} select { width: 100%; min-height: 52px; border: 1px solid #d9cfee; border-radius: 14px; background: #fff; color: #1f1638; padding: 13px 15px; font: inherit; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+  #kundli-generator-{{ section.id }} input:focus, #kundli-generator-{{ section.id }} select:focus, #kundli-generator-{{ section.id }} button:focus-visible { outline: 3px solid rgba(201, 151, 46, 0.35); outline-offset: 2px; border-color: var(--kundli-accent); }
+  #kundli-generator-{{ section.id }} .kundli-help, #kundli-generator-{{ section.id }} .kundli-status, #kundli-generator-{{ section.id }} .kundli-download-note { color: #675b7e; font-size: 13px; margin: 7px 0 0; }
+  #kundli-generator-{{ section.id }} .kundli-location { position: relative; }
+  #kundli-generator-{{ section.id }} .kundli-suggestions { position: absolute; z-index: 50; top: calc(100% - 18px); left: 0; right: 0; background: #fff; border: 1px solid #dacfee; border-radius: 16px; box-shadow: 0 18px 45px rgba(30, 19, 54, 0.22); overflow: hidden; max-height: 310px; overflow-y: auto; }
+  #kundli-generator-{{ section.id }} .kundli-suggestion, #kundli-generator-{{ section.id }} .kundli-suggestion-message { width: 100%; border: 0; background: #fff; text-align: left; padding: 14px 16px; color: #211739; display: block; cursor: pointer; border-bottom: 1px solid #f0eaf9; }
+  #kundli-generator-{{ section.id }} .kundli-suggestion:hover, #kundli-generator-{{ section.id }} .kundli-suggestion[aria-selected="true"] { background: #fbf4e3; }
+  #kundli-generator-{{ section.id }} .kundli-suggestion-title { display: block; font-weight: 800; }
+  #kundli-generator-{{ section.id }} .kundli-suggestion-meta { display: block; color: #685d7c; margin-top: 3px; font-size: 13px; }
+  #kundli-generator-{{ section.id }} .kundli-alert { border-radius: 14px; padding: 13px 15px; background: #fff0f0; color: #8a1720; border: 1px solid #f5b7bd; font-weight: 700; white-space: pre-line; }
+  #kundli-generator-{{ section.id }} .kundli-submit, #kundli-generator-{{ section.id }} .kundli-secondary { min-height: 54px; border: 0; border-radius: 16px; padding: 14px 20px; background: linear-gradient(135deg, var(--kundli-accent), #f4cf78); color: #241704; font-weight: 900; cursor: pointer; box-shadow: 0 14px 28px rgba(201, 151, 46, 0.28); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  #kundli-generator-{{ section.id }} .kundli-submit:hover, #kundli-generator-{{ section.id }} .kundli-secondary:hover { transform: translateY(-1px); box-shadow: 0 17px 34px rgba(201, 151, 46, 0.34); }
+  #kundli-generator-{{ section.id }} .kundli-submit:disabled { cursor: wait; opacity: 0.72; transform: none; }
+  #kundli-generator-{{ section.id }} .kundli-spinner { width: 18px; height: 18px; border: 3px solid rgba(36,23,4,0.25); border-top-color: #241704; border-radius: 50%; display: inline-block; margin-left: 8px; vertical-align: middle; animation: kundli-spin-{{ section.id }} 0.8s linear infinite; }
+  @keyframes kundli-spin-{{ section.id }} { to { transform: rotate(360deg); } }
+  #kundli-generator-{{ section.id }} .kundli-success { text-align: center; border: 1px solid #e2d7f4; background: linear-gradient(180deg, #fff, #fbf8ff); border-radius: 24px; padding: 34px; }
+  #kundli-generator-{{ section.id }} .kundli-success__icon { font-size: 42px; }
+  #kundli-generator-{{ section.id }} .kundli-success h3 { color: #261944; font-size: 30px; margin: 10px 0; }
+  #kundli-generator-{{ section.id }} .kundli-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
+  #kundli-generator-{{ section.id }} .kundli-link-button { grid-column: 1 / -1; background: transparent; border: 0; color: var(--kundli-primary); font-weight: 900; cursor: pointer; padding: 12px; }
+  @media (max-width: 860px) { #kundli-generator-{{ section.id }} { padding: 40px 14px; } #kundli-generator-{{ section.id }} .kundli-card, #kundli-generator-{{ section.id }} .kundli-grid { grid-template-columns: 1fr; } #kundli-generator-{{ section.id }} .kundli-info { border-radius: 30px 30px 0 0; padding: 30px; } #kundli-generator-{{ section.id }} .kundli-form-panel { padding: 28px; } }
+  @media (max-width: 560px) { #kundli-generator-{{ section.id }} .kundli-actions { grid-template-columns: 1fr; } #kundli-generator-{{ section.id }} .kundli-link-button { grid-column: auto; } #kundli-generator-{{ section.id }} .kundli-info, #kundli-generator-{{ section.id }} .kundli-form-panel { padding: 22px; } }
+</style>
+
+<script>
+  (function () {
+    function initializeKundliGenerator() {
+      const root = document.getElementById('kundli-generator-{{ section.id }}');
+      if (!root || root.dataset.kundliInitialized === 'true') return;
+      root.dataset.kundliInitialized = 'true';
+
+      /*
+       * IMPORTANT SECURITY WARNING:
+       *
+       * This implementation intentionally calls AstrologyAPI
+       * directly from the Shopify storefront.
+       *
+       * Therefore the API key is visible to the browser.
+       *
+       * Use this architecture only if AstrologyAPI permits
+       * browser-side/CORS requests.
+       *
+       * A backend or Shopify App Proxy would be required
+       * to keep the API key private and to resolve provider-side
+       * browser CORS restrictions when direct storefront access
+       * is not allowed by AstrologyAPI.
+       */
+      const CONFIG = {
+        astrologyUserId: 'YOUR_ASTROLOGY_USER_ID',
+        astrologyApiKey: 'YOUR_ASTROLOGY_API_KEY',
+        astrologyEndpoint: {{ section.settings.astrology_endpoint | json }},
+        nominatimApi: 'https://nominatim.openstreetmap.org/search',
+        timezoneApi: 'https://timeapi.io/api/timezone/coordinate'
+      };
+
+      const settings = {
+        companyName: {{ section.settings.company_name | json }},
+        companyInfo: {{ section.settings.company_info | json }},
+        companyEmail: {{ section.settings.company_email | json }},
+        companyMobile: {{ section.settings.company_mobile | json }},
+        companyLandline: {{ section.settings.company_landline | json }}
+      };
+      const form = root.querySelector('.kundli-form');
+      const success = root.querySelector('[data-success]');
+      const alertBox = root.querySelector('[data-alert]');
+      const placeInput = root.querySelector('[name="place"]');
+      const suggestionBox = root.querySelector('.kundli-suggestions');
+      const locationStatus = root.querySelector('[data-location-status]');
+      const submitButton = root.querySelector('.kundli-submit');
+      const buttonLabel = root.querySelector('[data-button-label]');
+      const buttonSpinner = root.querySelector('[data-button-spinner]');
+      const dobInput = root.querySelector('[name="dob"]');
+      const hidden = {
+        latitude: root.querySelector('[data-latitude]'), longitude: root.querySelector('[data-longitude]'),
+        city: root.querySelector('[data-city]'), state: root.querySelector('[data-state]'),
+        country: root.querySelector('[data-country]'), timezone: root.querySelector('[data-timezone]')
+      };
+      let selectedLocation = null;
+      let suggestions = [];
+      let activeIndex = -1;
+      let pdfUrl = '';
+      dobInput.max = new Date().toISOString().split('T')[0];
+
+      function debounce(fn, wait) { let timer; return function () { clearTimeout(timer); const args = arguments; timer = setTimeout(function () { fn.apply(null, args); }, wait); }; }
+      function showError(message) { alertBox.textContent = message; alertBox.hidden = false; }
+      function clearError() { alertBox.textContent = ''; alertBox.hidden = true; }
+      function setStatus(message) { locationStatus.textContent = message || ''; }
+      function closeSuggestions() { suggestionBox.hidden = true; placeInput.setAttribute('aria-expanded', 'false'); activeIndex = -1; }
+      function clearLocation() { selectedLocation = null; Object.keys(hidden).forEach(function (key) { hidden[key].value = ''; }); setStatus(''); }
+
+      function mapLocation(item) {
+        return {
+          name: item.display_name || '', latitude: parseFloat(item.lat), longitude: parseFloat(item.lon),
+          city: (item.address && (item.address.city || item.address.town || item.address.village || item.address.municipality)) || '',
+          state: (item.address && item.address.state) || '', country: (item.address && item.address.country) || '',
+          countryCode: (item.address && item.address.country_code) || ''
+        };
+      }
+      function formatTitle(location) { return location.city || location.name.split(',')[0] || 'Selected location'; }
+      function formatMeta(location) { return [location.state, location.country].filter(Boolean).join(', ') || location.name; }
+      async function searchLocations(query) {
+        const url = new URL(CONFIG.nominatimApi);
+        url.searchParams.set('q', query); url.searchParams.set('format', 'jsonv2'); url.searchParams.set('addressdetails', '1'); url.searchParams.set('limit', '6');
+        const response = await fetch(url.toString(), { method: 'GET', headers: { 'Accept': 'application/json' } });
+        if (!response.ok) throw new Error('location');
+        return (await response.json()).map(mapLocation).filter(function (location) { return location.name && Number.isFinite(location.latitude) && Number.isFinite(location.longitude); });
+      }
+      function renderLocationSuggestions(items, message) {
+        suggestionBox.innerHTML = '';
+        placeInput.setAttribute('aria-expanded', 'true'); suggestionBox.hidden = false;
+        if (message) { suggestionBox.innerHTML = '<div class="kundli-suggestion-message">' + message + '</div>'; return; }
+        items.forEach(function (location, index) {
+          const button = document.createElement('button'); button.type = 'button'; button.className = 'kundli-suggestion';
+          button.setAttribute('role', 'option'); button.setAttribute('aria-selected', index === activeIndex ? 'true' : 'false'); button.id = 'kundli-option-{{ section.id }}-' + index;
+          button.innerHTML = '<span class="kundli-suggestion-title">📍 ' + escapeHtml(formatTitle(location)) + '</span><span class="kundli-suggestion-meta">' + escapeHtml(formatMeta(location)) + '</span>';
+          button.addEventListener('click', function () { selectLocation(location); }); suggestionBox.appendChild(button);
+        });
+      }
+      function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, function (char) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]; }); }
+      async function selectLocation(location) {
+        selectedLocation = { name: location.name, latitude: location.latitude, longitude: location.longitude, city: location.city, state: location.state, country: location.country };
+        placeInput.value = selectedLocation.name; hidden.latitude.value = selectedLocation.latitude; hidden.longitude.value = selectedLocation.longitude; hidden.city.value = selectedLocation.city; hidden.state.value = selectedLocation.state; hidden.country.value = selectedLocation.country;
+        closeSuggestions(); setStatus('Getting timezone...');
+        try { hidden.timezone.value = await getTimezone(selectedLocation); setStatus('Timezone ready.'); } catch (error) { hidden.timezone.value = ''; setStatus(''); showError('Unable to determine the timezone for this location.'); }
+      }
+      async function getTimezone(location) {
+        const url = new URL(CONFIG.timezoneApi); url.searchParams.set('latitude', location.latitude); url.searchParams.set('longitude', location.longitude);
+        const response = await fetch(url.toString(), { method: 'GET', headers: { 'Accept': 'application/json' } });
+        if (!response.ok) throw new Error('timezone');
+        const data = await response.json();
+        const zone = data.timeZone || data.timezone || data.ianaTimeZone || data.id || data.name || (data.currentTimeZone && (data.currentTimeZone.timeZone || data.currentTimeZone.id));
+        if (!zone || !isValidTimeZone(zone)) throw new Error('timezone');
+        return zone;
+      }
+      function isValidTimeZone(zone) { try { new Intl.DateTimeFormat('en-US', { timeZone: zone }).format(new Date()); return true; } catch (error) { return false; } }
+      function getTimezoneOffset(zone, dateValue, timeValue) {
+        const parts = dateValue.split('-').map(Number); const times = timeValue.split(':').map(Number);
+        const utcDate = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], times[0], times[1]));
+        const dtf = new Intl.DateTimeFormat('en-US', { timeZone: zone, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+        const values = {}; dtf.formatToParts(utcDate).forEach(function (part) { if (part.type !== 'literal') values[part.type] = part.value; });
+        const asUtc = Date.UTC(Number(values.year), Number(values.month) - 1, Number(values.day), Number(values.hour === '24' ? '0' : values.hour), Number(values.minute), Number(values.second));
+        return Number(((asUtc - utcDate.getTime()) / 3600000).toFixed(2));
+      }
+      function validateForm() {
+        clearError();
+        if (!form.name.value.trim() || !form.gender.value || !form.dob.value || !form.time.value || !placeInput.value.trim()) { showError('Please complete all required birth details.'); return null; }
+        if (form.dob.value > dobInput.max) { showError('Please complete all required birth details.'); return null; }
+        if (!selectedLocation || placeInput.value !== selectedLocation.name) { showError('Please select your birth place from the suggestions.'); return null; }
+        if (!hidden.latitude.value || !hidden.longitude.value || !Number.isFinite(parseFloat(hidden.latitude.value)) || !Number.isFinite(parseFloat(hidden.longitude.value))) { showError('Please select your birth place from the suggestions.'); return null; }
+        if (!hidden.timezone.value) { showError('Unable to determine the timezone for this location.'); return null; }
+        const dateParts = form.dob.value.split('-').map(Number); const timeParts = form.time.value.split(':').map(Number);
+        return { name: form.name.value.trim(), gender: form.gender.value, day: dateParts[2], month: dateParts[1], year: dateParts[0], hour: timeParts[0], min: timeParts[1], timezoneOffset: getTimezoneOffset(hidden.timezone.value, form.dob.value, form.time.value) };
+      }
+      function showLoading(isLoading) { submitButton.disabled = isLoading; buttonSpinner.hidden = !isLoading; buttonLabel.textContent = isLoading ? 'Generating your Kundli...' : {{ section.settings.button_text | json }}; }
+      function createApiErrorMessage(status) {
+        if (status === 400) return 'Invalid request. Please check the birth details.';
+        if (status === 401) return 'AstrologyAPI authentication failed. Please check the API credentials.';
+        if (status === 403) return 'AstrologyAPI access is not permitted for this request.';
+        if (status === 404) return 'The requested AstrologyAPI endpoint was not found.';
+        if (status === 429) return 'Too many API requests. Please try again later.';
+        if (status >= 500) return 'AstrologyAPI is temporarily unavailable. Please try again later.';
+        return 'Unable to generate your Kundli right now. Please try again.';
+      }
+      function ApiHttpError(status, responseText) {
+        this.name = 'ApiHttpError';
+        this.status = status;
+        this.responseText = responseText;
+        this.message = 'API Error ' + status + ': ' + responseText;
+      }
+      ApiHttpError.prototype = Object.create(Error.prototype);
+      ApiHttpError.prototype.constructor = ApiHttpError;
+      function isDirectAstrologyEndpoint(endpoint) {
+        try { return new URL(endpoint, window.location.origin).hostname === 'pdf.astrologyapi.com'; }
+        catch (error) { return false; }
+      }
+      async function generateKundliPDF(data) {
+        const endpoint = CONFIG.astrologyEndpoint || 'https://pdf.astrologyapi.com/v1/basic_horoscope_pdf';
+        const headers = { 'Content-Type': 'application/json' };
+        if (isDirectAstrologyEndpoint(endpoint)) headers['x-astrologyapi-key'] = CONFIG.astrologyApiKey;
+        console.log('API Request:', { endpoint: endpoint, method: 'POST', requestData: data });
+        console.log('AstrologyAPI direct endpoint:', isDirectAstrologyEndpoint(endpoint));
+        console.log('AstrologyAPI key configured:', !!CONFIG.astrologyApiKey);
+
+        let response;
+        try {
+          response = await fetch(endpoint, { method: 'POST', headers: headers, body: JSON.stringify(data) });
+        } catch (error) {
+          console.error('Network/CORS Error:', error);
+          error.isNetworkOrCorsError = true;
+          throw error;
+        }
+
+        console.log('API Response Status:', response.status);
+        const responseText = await response.text();
+        let result = {};
+        try { result = responseText ? JSON.parse(responseText) : {}; } catch (error) { result = { raw: responseText }; }
+        console.log('API Response:', result);
+
+        if (!response.ok) {
+          console.error('API Status:', response.status);
+          console.error('API Response:', responseText);
+          throw new ApiHttpError(response.status, responseText);
+        }
+        return result;
+      }
+      function showSuccess(url) { form.hidden = true; success.hidden = false; pdfUrl = url; }
+      function resetKundli() { form.reset(); clearError(); closeSuggestions(); clearLocation(); success.hidden = true; form.hidden = false; pdfUrl = ''; dobInput.max = new Date().toISOString().split('T')[0]; }
+
+      const debouncedSearch = debounce(async function () {
+        const query = placeInput.value.trim();
+        if (query.length < 2) { closeSuggestions(); return; }
+        renderLocationSuggestions([], 'Searching locations...');
+        try { suggestions = await searchLocations(query); if (!suggestions.length) renderLocationSuggestions([], 'No locations found'); else renderLocationSuggestions(suggestions); }
+        catch (error) { renderLocationSuggestions([], 'Unable to search locations. Please try again.'); }
+      }, 400);
+      placeInput.addEventListener('input', function () { if (selectedLocation && placeInput.value !== selectedLocation.name) clearLocation(); debouncedSearch(); });
+      placeInput.addEventListener('keydown', function (event) {
+        if (suggestionBox.hidden || !suggestions.length) { if (event.key === 'Escape') closeSuggestions(); return; }
+        if (event.key === 'ArrowDown') { event.preventDefault(); activeIndex = (activeIndex + 1) % suggestions.length; renderLocationSuggestions(suggestions); }
+        if (event.key === 'ArrowUp') { event.preventDefault(); activeIndex = activeIndex <= 0 ? suggestions.length - 1 : activeIndex - 1; renderLocationSuggestions(suggestions); }
+        if (event.key === 'Enter' && activeIndex >= 0) { event.preventDefault(); selectLocation(suggestions[activeIndex]); }
+        if (event.key === 'Escape') closeSuggestions();
+      });
+      document.addEventListener('click', function (event) { if (!root.querySelector('[data-location-wrapper]').contains(event.target)) closeSuggestions(); });
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault(); const values = validateForm(); if (!values) return; showLoading(true);
+        const requestData = { name: values.name, day: values.day, month: values.month, year: values.year, hour: values.hour, min: values.min, lat: selectedLocation.latitude, lon: selectedLocation.longitude, tzone: values.timezoneOffset, gender: values.gender, language: 'en', place: selectedLocation.name, chart_style: 'NORTH_INDIAN', footer_link: '', logo_url: '', company_name: settings.companyName || 'YOUR COMPANY NAME', company_info: settings.companyInfo || 'YOUR COMPANY INFO', domain_url: '', company_email: settings.companyEmail || '', company_landline: settings.companyLandline || '', company_mobile: settings.companyMobile || '' };
+        try { const result = await generateKundliPDF(requestData); if (!result.pdf_url) throw new Error('Missing PDF URL'); showSuccess(result.pdf_url); }
+        catch (error) {
+          if (error && error.name === 'ApiHttpError') showError(createApiErrorMessage(error.status));
+          else if (!navigator.onLine) showError('Network error. Please check your internet connection.');
+          else if (error && error.isNetworkOrCorsError) showError('The browser could not access AstrologyAPI directly.\n\nThis Liquid-only implementation requires AstrologyAPI to allow browser-side CORS requests.\n\nIf direct browser access is not permitted, a backend or Shopify App Proxy will be required.');
+          else showError('Unable to generate your Kundli right now. Please try again.');
+        }
+        finally { showLoading(false); }
+      });
+      root.querySelector('[data-view-pdf]').addEventListener('click', function () { if (pdfUrl) window.open(pdfUrl, '_blank', 'noopener,noreferrer'); });
+      root.querySelector('[data-download-pdf]').addEventListener('click', function () { if (!pdfUrl) return; const link = document.createElement('a'); link.href = pdfUrl; link.download = 'kundli.pdf'; link.target = '_blank'; link.rel = 'noopener noreferrer'; document.body.appendChild(link); link.click(); link.remove(); });
+      root.querySelector('[data-reset]').addEventListener('click', resetKundli);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeKundliGenerator); else initializeKundliGenerator();
+    document.addEventListener('shopify:section:load', initializeKundliGenerator);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Kundli Generator",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Generate Your Free Kundli" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Enter your birth details to generate your personalized Vedic Kundli PDF." },
+    { "type": "text", "id": "button_text", "label": "Generate Button Text", "default": "Generate My Kundli" },
+    { "type": "text", "id": "astrology_endpoint", "label": "AstrologyAPI Endpoint URL", "default": "https://pdf.astrologyapi.com/v1/basic_horoscope_pdf", "info": "Use the direct AstrologyAPI URL only when browser CORS is allowed. If CORS is blocked, point this to your Shopify App Proxy or backend endpoint that securely calls AstrologyAPI." },
+    { "type": "color", "id": "primary_color", "label": "Primary Color", "default": "#3b1768" },
+    { "type": "color", "id": "accent_color", "label": "Accent Color", "default": "#d4af37" },
+    { "type": "text", "id": "company_name", "label": "Company Name", "default": "YOUR COMPANY NAME" },
+    { "type": "textarea", "id": "company_info", "label": "Company Info", "default": "YOUR COMPANY INFO" },
+    { "type": "text", "id": "company_email", "label": "Company Email" },
+    { "type": "text", "id": "company_mobile", "label": "Company Mobile" },
+    { "type": "text", "id": "company_landline", "label": "Company Landline" }
+  ],
+  "presets": [
+    { "name": "Kundli Generator" }
+  ]
+}
+{% endschema %}
